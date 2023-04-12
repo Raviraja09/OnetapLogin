@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { GoogleOAuthProvider, GoogleOneTapLogin } from '@react-oauth/google';
 
-const GoogleLoginPage = () => {
+const LoginPage = () => {
   const handleSuccess = (response) => {
     console.log(response);
   }
@@ -35,4 +35,4 @@ const GoogleLoginPage = () => {
   );
 }
 
-export default GoogleLoginPage;
+export default LoginPage;
