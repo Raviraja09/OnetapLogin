@@ -1,38 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, GoogleOneTapLogin } from '@react-oauth/google';
 
 const GoogleLoginPage = () => {
-  const responseGoogle = (response) => {
+  const handleSuccess = (response) => {
     console.log(response);
   }
 
+  const handleFailure = (response) => {
+    console.log(response);
+  }
+
+  useEffect(() => {
+    GoogleOneTapLogin.init({
+      onSuccess: handleSuccess,
+      onFailure: handleFailure,
+      clientId: `${process.env.REACT_APP_GOOGLE_API_TOKEN}`,
+    });
+    return () => {
+      GoogleOneTapLogin.cleanup();
+    };
+  }, []);
+
   return (
     <div className="">
-          <div className="">
-            <GoogleOAuthProvider 
-                clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
-                >
-             <GoogleLogin
-              render={(renderProps) => (
-                <button
-                  type="button"
-                  className=""
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <FcGoogle className="" /> Sign in with google
-                </button>
-              )}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy="single_host_origin"
-            />
-            </GoogleOAuthProvider>
-          </div>
+      <div className="">
+        <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}>
+          <button type="button" className="" id="google-one-tap-button">
+            <FcGoogle className="" /> Sign in with Google
+          </button>
+        </GoogleOAuthProvider>
+      </div>
     </div>
-  )
+  );
 }
 
-export default GoogleLoginPage
+export default GoogleLoginPage;
